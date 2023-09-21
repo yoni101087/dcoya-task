@@ -12,5 +12,5 @@ service:
 ingress:
   enabled: true
   annotations: {}
-  host: http://dcoya-task.local/
+  host: dcoya-task.local
 
