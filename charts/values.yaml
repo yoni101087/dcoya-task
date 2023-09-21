@@ -1,0 +1,16 @@
+replicaCount: 1
+image:
+  repository: yoni101087/dcoya_task
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 9085
+
+
+ingress:
+  enabled: true
+  annotations: {}
+  host: http://dcoya-task.local/
+

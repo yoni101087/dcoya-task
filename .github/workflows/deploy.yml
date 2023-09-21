@@ -1,0 +1,47 @@
+
+name: Kubernetes Deployment Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-app:
+    runs-on: self-hosted   # Specify the runner label for your self-hosted runner
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Build and Push Docker Image
+        run: |
+          # Example: Build and push the Docker image
+          docker build -t ${{ env.application }} .
+          docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          docker tag ${{ env.application }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:latest
+
+      - name: Deploy to Kubernetes with helm
+        # Add steps to deploy the application to the Kubernetes cluster
+        run: |
+          helm upgrade ${{ env.application }} ./charts \
+          --install \
+          --namespace ${{ env.namespace }}
+    
+    env:
+      dockerhub-repo: dcoya_task
+      application: dcoya-task
+      namespace: default      
+
+  test-app:
+    needs: deploy-app
+    runs-on: self-hosted   # Specify the runner label for your self-hosted runner
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Run Tests
+        # Add steps to run tests against your application endpoints
+        run: |
+          python3 ./test.py
+

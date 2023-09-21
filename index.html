@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Dockerized Web App</title>
+</head>
+<body>
+    <h1>Hello from Docker!</h1>
+    <p>Current Date and Time: <span id="datetime"></span></p>
+    <p>Machine Name: <span id="machinename"></span></p>
+
+    <script>
+        // JavaScript to display the current local date and time without seconds
+        var datetimeElement = document.getElementById("datetime");
+        var machinenameElement = document.getElementById("machinename");
+
+        // Fetch the machine name from an environment file
+        fetch('/etc/nginx/machine_name.txt')
+            .then(response => response.text())
+            .then(machineName => {
+                machinenameElement.textContent = machineName;
+            });
+
+        // Update the date and time every second
+        function updateDatetime() {
+            var now = new Date();
+            var formattedDatetime = now.toLocaleString(undefined, { hour: 'numeric', minute: 'numeric', second: 'numeric', year: 'numeric', month: 'numeric', day: 'numeric' });
+            datetimeElement.textContent = formattedDatetime;
+        }
+
+        setInterval(updateDatetime, 1000);
+        updateDatetime(); // Initial update
+    </script>
+</body>
+</html>
