@@ -28,3 +28,4 @@ helm upgrade ${{ env.application }} ./charts \
 Tests for the application are conducted to ensure its functionality. The test script retrieves the website output, filters the date, and compares it with the current date using Python:
 
 python3 ./test.py
+
