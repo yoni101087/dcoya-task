@@ -11,7 +11,7 @@ RUN mkdir -p /var/www/html
 COPY index.html /var/www/html/
 
 # Copy the environment file containing the machine name
-COPY machine_name.txt /etc/nginx/
+COPY machine_name.txt /var/www/html/
 
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
