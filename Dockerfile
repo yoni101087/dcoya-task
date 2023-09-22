@@ -6,7 +6,6 @@ RUN apk update && apk add nginx && \
     mkdir -p /run/nginx && \
     chown -R nginx:nginx /var/lib/nginx && \
     chown -R nginx:nginx /var/log/nginx && \
-    chown -R nginx:nginx /var/tmp/nginx && \
     chown -R nginx:nginx /run/nginx
 
 # Create a directory for the index.html file
