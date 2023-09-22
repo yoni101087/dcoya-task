@@ -16,9 +16,6 @@ COPY machine_name.txt /var/www/html/
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Change ownership of the Nginx directories to the non-root user
-RUN chown -R nginx:nginx /var/cache/nginx /var/run
-
 # Tell Docker to run Nginx as the non-root user
 USER nginx
 
