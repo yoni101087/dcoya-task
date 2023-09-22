@@ -16,9 +16,6 @@ COPY machine_name.txt /var/www/html/
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create a non-root user and group for Nginx
-RUN groupadd -r nginx && useradd -r -g nginx nginx
-
 # Change ownership of the Nginx directories to the non-root user
 RUN chown -R nginx:nginx /var/cache/nginx /var/run
 
