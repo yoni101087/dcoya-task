@@ -16,8 +16,10 @@ COPY machine_name.txt /var/www/html/
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Tell Docker to run Nginx as the non-root user
-USER nginx
+RUN groupadd -r swuser -g 433 && \
+    useradd -u 431 -r -g swuser -s /sbin/nologin -c "Docker image user" swuser
+
+USER swuser
 
 # Expose port 80
 EXPOSE 80
