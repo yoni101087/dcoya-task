@@ -14,7 +14,7 @@
         var machinenameElement = document.getElementById("machinename");
 
         // Fetch the machine name from an environment file
-        fetch('/machine_name.txt') // Use the correct path here
+        fetch('machine_name.txt') // Use the correct path here
             .then(response => response.text())
             .then(machineName => {
                 machinenameElement.textContent = machineName;
