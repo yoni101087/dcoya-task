@@ -13,13 +13,17 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
+      - name: Get short SHA
+        id: short_sha
+        run: echo "::set-output name=short_sha::$(git rev-parse --short=7 $GITHUB_SHA)"
+
       - name: Build and Push Docker Image
         run: |
           # Example: Build and push the Docker image
           docker build -t ${{ env.application }} .
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker tag ${{ env.application }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ github.sha }}
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ github.sha }}
+          docker tag ${{ env.application }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ steps.short_sha.outputs.short_sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ steps.short_sha.outputs.short_sha }}
 
       - name: Deploy to Kubernetes with helm
         # Add steps to deploy the application to the Kubernetes cluster
