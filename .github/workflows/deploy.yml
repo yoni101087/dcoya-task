@@ -18,8 +18,8 @@ jobs:
           # Example: Build and push the Docker image
           docker build -t ${{ env.application }} .
           docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
-          docker tag ${{ env.application }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:latest
+          docker tag ${{ env.application }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ github.sha }}
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.dockerhub-repo }}:${{ github.sha }}
 
       - name: Deploy to Kubernetes with helm
         # Add steps to deploy the application to the Kubernetes cluster
