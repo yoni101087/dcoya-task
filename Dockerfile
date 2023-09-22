@@ -2,7 +2,12 @@
 FROM alpine:latest
 
 # Install Nginx
-RUN apk update && apk add nginx
+RUN apk update && apk add nginx && \
+    mkdir -p /run/nginx && \
+    chown -R nginx:nginx /var/lib/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /var/tmp/nginx && \
+    chown -R nginx:nginx /run/nginx
 
 # Create a directory for the index.html file
 RUN mkdir -p /var/www/html
@@ -16,10 +21,11 @@ COPY machine_name.txt /var/www/html/
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN groupadd -r swuser -g 433 && \
-    useradd -u 431 -r -g swuser -s /sbin/nologin -c "Docker image user" swuser
+# Create a non-root user and group for Nginx
+RUN addgroup -S nginx && adduser -S -D -H -G nginx nginx
 
-USER swuser
+# Tell Docker to run Nginx as the non-root user
+USER nginx
 
 # Expose port 80
 EXPOSE 80
