@@ -20,9 +20,6 @@ COPY machine_name.txt /var/www/html/
 # Configure Nginx to use our custom configuration
 COPY nginx.conf /etc/nginx/nginx.conf
 
-# Create a non-root user and group for Nginx
-RUN addgroup -S nginx && adduser -S -D -H -G nginx nginx
-
 # Tell Docker to run Nginx as the non-root user
 USER nginx
 
