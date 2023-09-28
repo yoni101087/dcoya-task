@@ -17,7 +17,7 @@ spec:
               service:
                 name: {{ include "name" . }}
                 port:
-                  number: 9085
+                  number: 80
 status:
   loadBalancer:
     ingress:
