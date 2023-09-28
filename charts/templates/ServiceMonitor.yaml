@@ -1,0 +1,16 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: dcoya-task-servicemonitor
+  namespace: monitoring
+  labels:
+    name: dcoya-task-servicemonitor
+spec:
+  selector:
+    matchLabels:
+      app: dcoya-task
+  namespaceSelector:
+    matchNames:
+    - default
+  endpoints:
+  - port: http
